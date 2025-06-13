@@ -36,7 +36,10 @@ function App() {
       Vector3.Zero(),
       scene
     );
-    camera.attachControl(canvasRef.current, true);
+    camera.attachControl(canvasRef.current, false);
+    camera.lowerRadiusLimit = 3;
+    camera.upperRadiusLimit = 100;
+    camera.panningInertia = 0.9;
 
     // Set lighter background for better visibility
     scene.clearColor = new Color4(0.15, 0.15, 0.18, 1);
@@ -87,8 +90,24 @@ function App() {
 
     // Initialize CubeManager
     cubeManagerRef.current = new CubeManager(scene);
-    cubeManagerRef.current.setCurrentColor(currentColor);
-    cubeManagerRef.current.setRemoveMode(isRemoveMode);
+    cubeManagerRef.current.setCurrentColor(INITIAL_COLOR);
+    cubeManagerRef.current.setRemoveMode(false);
+
+    // Handle keyboard events
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Shift" && !event.repeat) {
+        setIsRemoveMode((prev) => !prev);
+      }
+    };
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === "Shift") {
+        setIsRemoveMode((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     // Render loop
     engine.runRenderLoop(() => {
@@ -103,6 +122,8 @@ function App() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
       engine.dispose();
     };
   }, []);
