@@ -236,6 +236,7 @@ export class CubeManager {
       cubeData.mesh.dispose();
     });
     this.cubes.clear();
+    this.placeInitialCube();
   }
 
   public getCubes(): CubeData[] {

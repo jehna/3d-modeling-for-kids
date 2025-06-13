@@ -12,6 +12,7 @@ import {
 } from "@babylonjs/core";
 import { GridMaterial } from "@babylonjs/materials";
 import { CubeManager } from "./engine/CubeManager";
+import { ExportManager } from "./engine/ExportManager";
 import { INITIAL_COLOR, ModernToolbar } from "./components/ModernToolbar";
 import "./App.css";
 
@@ -148,6 +149,27 @@ function App() {
     setCurrentColor(color);
   };
 
+  const handleExportSTL = () => {
+    if (cubeManagerRef.current) {
+      const cubes = cubeManagerRef.current.getCubes();
+      if (cubes.length === 0) {
+        alert("No cubes to export!");
+        return;
+      }
+      
+      const stlContent = ExportManager.exportToSTL(cubes);
+      ExportManager.downloadSTL(stlContent);
+    }
+  };
+
+  const handleClearAll = () => {
+    if (cubeManagerRef.current) {
+      if (confirm("Are you sure you want to clear all cubes?")) {
+        cubeManagerRef.current.clearAll();
+      }
+    }
+  };
+
   return (
     <div className="w-screen h-screen m-0 p-0">
       <canvas ref={canvasRef} className="w-full h-full block outline-none" />
@@ -156,6 +178,8 @@ function App() {
         onToggleRemoveMode={handleToggleRemoveMode}
         currentColor={currentColor}
         onColorChange={handleColorChange}
+        onExportSTL={handleExportSTL}
+        onClearAll={handleClearAll}
       />
     </div>
   );

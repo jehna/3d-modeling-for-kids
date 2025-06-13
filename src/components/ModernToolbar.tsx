@@ -14,6 +14,8 @@ interface ModernToolbarProps {
   onToggleRemoveMode: () => void;
   currentColor: string;
   onColorChange: (color: string) => void;
+  onExportSTL: () => void;
+  onClearAll: () => void;
 }
 
 export const COLORS = [
@@ -50,6 +52,8 @@ export function ModernToolbar({
   onToggleRemoveMode,
   currentColor,
   onColorChange,
+  onExportSTL,
+  onClearAll,
 }: ModernToolbarProps) {
   const [showColors, setShowColors] = useState(false);
 
@@ -107,6 +111,7 @@ export function ModernToolbar({
 
           {/* Action Buttons */}
           <button
+            onClick={onExportSTL}
             className="flex items-center justify-center w-10 h-10 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
             title="Export STL"
           >
@@ -114,6 +119,7 @@ export function ModernToolbar({
           </button>
 
           <button
+            onClick={onClearAll}
             className="flex items-center justify-center w-10 h-10 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
             title="Clear All"
           >
