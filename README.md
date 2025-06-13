@@ -1,54 +1,57 @@
-# React + TypeScript + Vite
+# 3D Modeling for Kids
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based 3D modeling application designed for children, featuring simple cube-based building mechanics with professional visual quality and export capabilities for 3D printing.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Simple Building**: Place and remove colorful cubes to create 3D models
+- **16 Vibrant Colors**: Choose from a carefully selected color palette
+- **Professional Interface**: Clean, modern design with glass morphism effects
+- **3D Printing Ready**: Export models as STL files for 3D printing
+- **Multi-Platform**: Works on desktop, tablet, and mobile devices
+- **Touch-Friendly**: Optimized for touch interactions on tablets
 
-## Expanding the ESLint configuration
+## How to Use
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Building Mode**: Click in empty space to place cubes adjacent to existing cubes
+2. **Remove Mode**: Toggle the remove tool and click on cubes to delete them
+3. **Color Selection**: Choose from 16 colors in the floating color picker
+4. **Navigation**:
+   - Mouse: Left-click drag to rotate, scroll to zoom, right-click drag to pan
+   - Touch: Pinch to zoom, two-finger drag to pan, single finger to rotate
+5. **Export**: Click the export button to download your model as an STL file
+6. **Clear**: Remove all cubes to start fresh
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Technology Stack
+
+- **Babylon.js**: Professional 3D engine with TypeScript support
+- **React**: Modern UI framework
+- **TypeScript**: Type-safe development
+- **Tailwind CSS**: Utility-first styling
+- **shadcn/ui**: Premium component library
+- **Vite**: Fast build tool
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Requirements
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Modern browser with WebGL 2.0 support
+- Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## License
+
+MIT License - feel free to use this project for educational purposes.
