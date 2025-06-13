@@ -12,14 +12,14 @@ import {
 } from "@babylonjs/core";
 import { GridMaterial } from "@babylonjs/materials";
 import { CubeManager } from "./engine/CubeManager";
-import { FloatingToolbar } from "./components/FloatingToolbar";
+import { INITIAL_COLOR, ModernToolbar } from "./components/ModernToolbar";
 import "./App.css";
 
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cubeManagerRef = useRef<CubeManager | null>(null);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#FFFFFF");
+  const [currentColor, setCurrentColor] = useState(INITIAL_COLOR);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -130,7 +130,7 @@ function App() {
   return (
     <div className="w-screen h-screen m-0 p-0">
       <canvas ref={canvasRef} className="w-full h-full block outline-none" />
-      <FloatingToolbar
+      <ModernToolbar
         isRemoveMode={isRemoveMode}
         onToggleRemoveMode={handleToggleRemoveMode}
         currentColor={currentColor}

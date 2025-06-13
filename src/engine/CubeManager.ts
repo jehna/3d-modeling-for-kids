@@ -10,6 +10,7 @@ import {
   Color4,
   PickingInfo,
 } from "@babylonjs/core";
+import { COLORS, INITIAL_COLOR } from "@/components/ModernToolbar";
 
 export interface CubeData {
   mesh: Mesh;
@@ -21,7 +22,7 @@ export class CubeManager {
   private scene: Scene;
   private cubes: Map<string, CubeData> = new Map();
   private materials: Map<string, StandardMaterial> = new Map();
-  private currentColor: string = "#FFFFFF";
+  private currentColor: string = INITIAL_COLOR;
   private isRemoveMode: boolean = false;
   private previewCube: Mesh | null = null;
   private previewMaterial: StandardMaterial;
@@ -35,27 +36,8 @@ export class CubeManager {
   }
 
   private initializeMaterials() {
-    const colors = [
-      { name: "white", hex: "#FFFFFF" },
-      { name: "lightgray", hex: "#C0C0C0" },
-      { name: "darkgray", hex: "#808080" },
-      { name: "black", hex: "#000000" },
-      { name: "red", hex: "#FF0000" },
-      { name: "green", hex: "#00FF00" },
-      { name: "blue", hex: "#0000FF" },
-      { name: "yellow", hex: "#FFFF00" },
-      { name: "cyan", hex: "#00FFFF" },
-      { name: "magenta", hex: "#FF00FF" },
-      { name: "orange", hex: "#FF8000" },
-      { name: "purple", hex: "#8000FF" },
-      { name: "lime", hex: "#80FF00" },
-      { name: "teal", hex: "#00FF80" },
-      { name: "pink", hex: "#FF0080" },
-      { name: "skyblue", hex: "#0080FF" },
-    ];
-
-    colors.forEach(({ name, hex }) => {
-      const material = new StandardMaterial(`material_${name}`, this.scene);
+    COLORS.forEach((hex) => {
+      const material = new StandardMaterial(`material_${hex}`, this.scene);
       const color = Color3.FromHexString(hex);
       material.diffuseColor = color;
       material.specularColor = new Color3(0.1, 0.1, 0.1);
