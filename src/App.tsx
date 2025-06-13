@@ -128,16 +128,8 @@ function App() {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", margin: 0, padding: 0 }}>
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "block",
-          outline: "none",
-        }}
-      />
+    <div className="w-screen h-screen m-0 p-0">
+      <canvas ref={canvasRef} className="w-full h-full block outline-none" />
       <FloatingToolbar
         isRemoveMode={isRemoveMode}
         onToggleRemoveMode={handleToggleRemoveMode}
