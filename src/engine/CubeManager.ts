@@ -66,8 +66,7 @@ export class CubeManager {
   private initializePreviewMaterial() {
     this.previewMaterial = new StandardMaterial("previewMaterial", this.scene);
     this.previewMaterial.diffuseColor = new Color3(1, 1, 1);
-    this.previewMaterial.alpha = 0.5;
-    this.previewMaterial.wireframe = true;
+    this.previewMaterial.alpha = 0.1;
   }
 
   private placeInitialCube() {
@@ -77,7 +76,7 @@ export class CubeManager {
 
   private setupPointerEvents() {
     this.scene.onPointerObservable.add((pointerInfo: PointerInfo) => {
-      if (pointerInfo.type === PointerEventTypes.POINTERUP) {
+      if (pointerInfo.type === PointerEventTypes.POINTERPICK) {
         this.handlePointerClick(pointerInfo.pickInfo);
       } else if (
         pointerInfo.type === PointerEventTypes.POINTERMOVE &&
@@ -89,22 +88,15 @@ export class CubeManager {
   }
 
   private handlePointerMove(pickInfo: PickingInfo | null) {
-    if (!pickInfo || !pickInfo.hit || !pickInfo.pickedPoint) {
+    if (!pickInfo || !pickInfo.hit || !pickInfo.pickedMesh) {
       this.hidePreview();
       return;
     }
 
-    let targetPosition: Vector3;
-
-    if (pickInfo.pickedMesh?.name.startsWith("cube_")) {
-      targetPosition = this.calculateAdjacentPosition(
-        pickInfo.pickedPoint,
-        pickInfo.getNormal(true, false) || Vector3.Up()
-      );
-    } else {
-      this.hidePreview();
-      return;
-    }
+    const targetPosition = this.calculateAdjacentPosition(
+      pickInfo.pickedMesh.position,
+      pickInfo.getNormal(true, false) || Vector3.Up()
+    );
 
     if (this.isValidPlacement(targetPosition)) {
       this.showPreview(targetPosition, true);
@@ -125,14 +117,16 @@ export class CubeManager {
     this.previewCube.position = position.clone();
     this.previewCube.material = this.previewMaterial;
 
+    this.previewCube.isPickable = false;
+    if (this.previewCube.collider) {
+      this.previewCube.collider.collisionMask = 0;
+    }
+
     if (isValid) {
       this.previewMaterial.diffuseColor = Color3.FromHexString(
         this.currentColor
       );
-      this.previewMaterial.alpha = 0.7;
-    } else {
-      this.previewMaterial.diffuseColor = new Color3(1, 0, 0);
-      this.previewMaterial.alpha = 0.5;
+      this.previewMaterial.alpha = 0.3;
     }
 
     this.previewCube.setEnabled(true);
@@ -156,7 +150,7 @@ export class CubeManager {
 
   private handleCubeRemoval(pickInfo: PickingInfo) {
     const mesh = pickInfo.pickedMesh;
-    if (!mesh || !mesh.name.startsWith("cube_")) return;
+    if (!mesh) return;
 
     // Prevent removing the last cube
     if (this.cubes.size <= 1) return;
@@ -171,18 +165,12 @@ export class CubeManager {
   }
 
   private handleCubePlacement(pickInfo: PickingInfo) {
-    if (!pickInfo.pickedPoint) return;
+    if (!pickInfo.pickedMesh) return;
 
-    let targetPosition: Vector3;
-
-    if (pickInfo.pickedMesh?.name.startsWith("cube_")) {
-      targetPosition = this.calculateAdjacentPosition(
-        pickInfo.pickedPoint,
-        pickInfo.getNormal(true, false) || Vector3.Up()
-      );
-    } else {
-      return;
-    }
+    const targetPosition = this.calculateAdjacentPosition(
+      pickInfo.pickedMesh.position,
+      pickInfo.getNormal(true, false) || Vector3.Up()
+    );
 
     if (this.isValidPlacement(targetPosition)) {
       this.placeCube(targetPosition, this.currentColor);
@@ -191,9 +179,9 @@ export class CubeManager {
 
   private calculateAdjacentPosition(point: Vector3, normal: Vector3): Vector3 {
     return new Vector3(
-      Math.round(point.x + normal.x * 0.5),
-      Math.round(point.y + normal.y * 0.5),
-      Math.round(point.z + normal.z * 0.5)
+      point.x + normal.x,
+      point.y + normal.y,
+      point.z + normal.z
     );
   }
 
@@ -225,6 +213,7 @@ export class CubeManager {
       this.scene
     );
     cube.position = position.clone();
+    cube.enablePointerMoveEvents = true;
 
     const material = this.materials.get(color);
     if (material) {

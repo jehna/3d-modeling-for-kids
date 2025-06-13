@@ -67,7 +67,11 @@ function App() {
     fillLight.intensity = 0.2;
 
     // Create subtle ground grid for orientation
-    const ground = MeshBuilder.CreateGround("ground", { width: 20, height: 20 }, scene);
+    const ground = MeshBuilder.CreateGround(
+      "ground",
+      { width: 20, height: 20 },
+      scene
+    );
     const groundMaterial = new GridMaterial("groundMaterial", scene);
     groundMaterial.gridRatio = 1;
     groundMaterial.mainColor = new Color3(0.2, 0.2, 0.25);
@@ -76,6 +80,10 @@ function App() {
     groundMaterial.backFaceCulling = false; // Make grid visible from both sides
     ground.material = groundMaterial;
     ground.position.y = 0;
+    ground.isPickable = false;
+    if (ground.collider) {
+      ground.collider.collisionMask = 0;
+    }
 
     // Initialize CubeManager
     cubeManagerRef.current = new CubeManager(scene);
