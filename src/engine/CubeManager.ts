@@ -222,6 +222,16 @@ export class CubeManager {
 
   public setCurrentColor(color: string) {
     this.currentColor = color;
+    
+    // If there's only one cube, update its color
+    if (this.cubes.size === 1) {
+      const cubeData = Array.from(this.cubes.values())[0];
+      const material = this.materials.get(color);
+      if (material && cubeData) {
+        cubeData.mesh.material = material;
+        cubeData.color = color;
+      }
+    }
   }
 
   public setRemoveMode(enabled: boolean) {
