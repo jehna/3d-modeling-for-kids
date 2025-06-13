@@ -112,6 +112,9 @@ function App() {
 
     // Render loop
     engine.runRenderLoop(() => {
+      if (cubeManagerRef.current) {
+        cubeManagerRef.current.update();
+      }
       scene.render();
     });
 
