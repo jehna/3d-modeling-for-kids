@@ -21,7 +21,7 @@ export class CubeManager {
   private scene: Scene;
   private cubes: Map<string, CubeData> = new Map();
   private materials: Map<string, StandardMaterial> = new Map();
-  private currentColor: string = "#FF0000";
+  private currentColor: string = "#FFFFFF";
   private isRemoveMode: boolean = false;
   private previewCube: Mesh | null = null;
   private previewMaterial: StandardMaterial;
@@ -36,6 +36,10 @@ export class CubeManager {
 
   private initializeMaterials() {
     const colors = [
+      { name: "white", hex: "#FFFFFF" },
+      { name: "lightgray", hex: "#C0C0C0" },
+      { name: "darkgray", hex: "#808080" },
+      { name: "black", hex: "#000000" },
       { name: "red", hex: "#FF0000" },
       { name: "green", hex: "#00FF00" },
       { name: "blue", hex: "#0000FF" },
@@ -48,10 +52,6 @@ export class CubeManager {
       { name: "teal", hex: "#00FF80" },
       { name: "pink", hex: "#FF0080" },
       { name: "skyblue", hex: "#0080FF" },
-      { name: "white", hex: "#FFFFFF" },
-      { name: "lightgray", hex: "#C0C0C0" },
-      { name: "darkgray", hex: "#808080" },
-      { name: "black", hex: "#000000" },
     ];
 
     colors.forEach(({ name, hex }) => {

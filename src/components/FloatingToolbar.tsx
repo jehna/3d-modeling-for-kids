@@ -8,9 +8,22 @@ interface FloatingToolbarProps {
 }
 
 const COLORS = [
-  "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF",
-  "#FF8000", "#8000FF", "#80FF00", "#00FF80", "#FF0080", "#0080FF",
-  "#FFFFFF", "#C0C0C0", "#808080", "#000000"
+  "#FFFFFF",
+  "#C0C0C0",
+  "#808080",
+  "#000000",
+  "#FF0000",
+  "#00FF00",
+  "#0000FF",
+  "#FFFF00",
+  "#00FFFF",
+  "#FF00FF",
+  "#FF8000",
+  "#8000FF",
+  "#80FF00",
+  "#00FF80",
+  "#FF0080",
+  "#0080FF",
 ];
 
 export function FloatingToolbar({
@@ -53,7 +66,7 @@ export function FloatingToolbar({
       >
         {isRemoveMode ? "Remove Mode" : "Build Mode"}
       </button>
-      
+
       <div
         style={{
           display: "grid",
@@ -69,7 +82,10 @@ export function FloatingToolbar({
               width: "32px",
               height: "32px",
               background: color,
-              border: currentColor === color ? "2px solid white" : "1px solid rgba(255, 255, 255, 0.2)",
+              border:
+                currentColor === color
+                  ? "2px solid white"
+                  : "1px solid rgba(255, 255, 255, 0.2)",
               borderRadius: "6px",
               cursor: "pointer",
               transition: "all 0.2s ease",

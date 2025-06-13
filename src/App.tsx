@@ -19,7 +19,7 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cubeManagerRef = useRef<CubeManager | null>(null);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#FF0000");
+  const [currentColor, setCurrentColor] = useState("#FFFFFF");
 
   useEffect(() => {
     if (!canvasRef.current) return;
