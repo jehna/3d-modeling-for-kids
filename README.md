@@ -1,5 +1,7 @@
 # 3D Modeling for Kids
 
+![App Icon](public/assets/icon.png)
+
 A browser-based 3D modeling application designed for children, featuring simple cube-based building mechanics with professional visual quality and export capabilities for 3D printing.
 
 ## Features
