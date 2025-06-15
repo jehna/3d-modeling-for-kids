@@ -4,6 +4,15 @@
 
 A browser-based 3D modeling application designed for children, featuring simple cube-based building mechanics with professional visual quality and export capabilities for 3D printing.
 
+## Check it out!
+
+Visit:
+
+https://jehna.github.io/3d-modeling-for-kids/
+
+This will open the app in your browser. If you're on a mobile device, you can
+add the app to your home screen for even better access.
+
 ## Features
 
 - **Simple Building**: Place and remove colorful cubes to create 3D models
