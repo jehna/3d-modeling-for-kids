@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  Plus,
-  Minus,
-  Palette,
-  Download,
-  RotateCcw,
-  Grid3X3,
-} from "lucide-react";
+import { useState } from "react";
+import { Plus, Minus, Download, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ModernToolbarProps {

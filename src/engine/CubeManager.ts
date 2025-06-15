@@ -18,6 +18,16 @@ export interface CubeData {
   color: string;
 }
 
+export interface SerializedCubeData {
+  position: { x: number; y: number; z: number };
+  color: string;
+}
+
+export interface AppState {
+  cubes: SerializedCubeData[];
+  currentColor: string;
+}
+
 export class CubeManager {
   private scene: Scene;
   private cubes: Map<string, CubeData> = new Map();
@@ -25,14 +35,15 @@ export class CubeManager {
   private currentColor: string = INITIAL_COLOR;
   private isRemoveMode: boolean = false;
   private previewCube: Mesh | null = null;
-  private previewMaterial: StandardMaterial;
+  private previewMaterial!: StandardMaterial;
+  private static readonly STORAGE_KEY = "3d-modeling-app-state";
 
   constructor(scene: Scene) {
     this.scene = scene;
     this.initializeMaterials();
     this.initializePreviewMaterial();
     this.setupPointerEvents();
-    this.placeInitialCube();
+    this.loadFromStorage();
   }
 
   private initializeMaterials() {
@@ -143,6 +154,7 @@ export class CubeManager {
     if (cubeData) {
       cubeData.mesh.dispose();
       this.cubes.delete(positionKey);
+      this.saveToStorage();
     }
   }
 
@@ -156,6 +168,7 @@ export class CubeManager {
 
     if (this.isValidPlacement(targetPosition)) {
       this.placeCube(targetPosition, this.currentColor);
+      this.saveToStorage();
     }
   }
 
@@ -222,7 +235,7 @@ export class CubeManager {
 
   public setCurrentColor(color: string) {
     this.currentColor = color;
-    
+
     // If there's only one cube, update its color
     if (this.cubes.size === 1) {
       const cubeData = Array.from(this.cubes.values())[0];
@@ -230,7 +243,10 @@ export class CubeManager {
       if (material && cubeData) {
         cubeData.mesh.material = material;
         cubeData.color = color;
+        this.saveToStorage();
       }
+    } else {
+      this.saveToStorage();
     }
   }
 
@@ -247,9 +263,61 @@ export class CubeManager {
     });
     this.cubes.clear();
     this.placeInitialCube();
+    this.saveToStorage();
   }
 
   public getCubes(): CubeData[] {
     return Array.from(this.cubes.values());
+  }
+
+  private saveToStorage() {
+    try {
+      const state: AppState = {
+        cubes: Array.from(this.cubes.values()).map((cube) => ({
+          position: {
+            x: cube.position.x,
+            y: cube.position.y,
+            z: cube.position.z,
+          },
+          color: cube.color,
+        })),
+        currentColor: this.currentColor,
+      };
+      localStorage.setItem(CubeManager.STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+      console.warn("Failed to save state to localStorage:", error);
+    }
+  }
+
+  private loadFromStorage() {
+    try {
+      const savedState = localStorage.getItem(CubeManager.STORAGE_KEY);
+      if (savedState) {
+        const state: AppState = JSON.parse(savedState);
+        this.currentColor = state.currentColor;
+
+        if (state.cubes && state.cubes.length > 0) {
+          state.cubes.forEach((cubeData) => {
+            const position = new Vector3(
+              cubeData.position.x,
+              cubeData.position.y,
+              cubeData.position.z
+            );
+            this.placeCube(position, cubeData.color);
+          });
+        } else {
+          this.placeInitialCube();
+        }
+      } else {
+        this.placeInitialCube();
+      }
+    } catch (error) {
+      console.warn("Failed to load state from localStorage:", error);
+      this.placeInitialCube();
+    }
+  }
+
+  public getCurrentColor(): string {
+    return this.currentColor;
   }
 }

@@ -91,8 +91,10 @@ function App() {
 
     // Initialize CubeManager
     cubeManagerRef.current = new CubeManager(scene);
-    cubeManagerRef.current.setCurrentColor(INITIAL_COLOR);
     cubeManagerRef.current.setRemoveMode(false);
+    
+    // Load the current color from the loaded state
+    setCurrentColor(cubeManagerRef.current.getCurrentColor());
 
     // Handle keyboard events
     const handleKeyDown = (event: KeyboardEvent) => {
