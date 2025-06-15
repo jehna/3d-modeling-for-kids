@@ -27,9 +27,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - run: npm ci
-      - run: npm run build
-        env:
-          ASSET_URL: "/3d-modeling-for-kids/"
+      - run: npm run build -- --base "/3d-modeling-for-kids/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
