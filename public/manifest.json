@@ -2,12 +2,12 @@
   "name": "3D Modeling for Kids",
   "short_name": "3D Modeling",
   "description": "A fun, browser-based 3D modeling app for children. Build colorful cube models and export them for 3D printing.",
-  "start_url": "/",
+  "start_url": "/3d-modeling-for-kids/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "any",
-  "scope": "/",
+  "scope": "/3d-modeling-for-kids/",
   "icons": [
     {
       "src": "/assets/icon.png",
